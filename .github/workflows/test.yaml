@@ -18,4 +18,5 @@ jobs:
           echo "getting commit"
           git log
           git log -1 --format="%H"
+          X=`git log -1 --format="%H"` && echo "COMMIT IS $X"
           
