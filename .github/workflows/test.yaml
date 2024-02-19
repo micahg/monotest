@@ -10,11 +10,12 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - run: |
+      - env:
+          BRANCHNAME: ${{github.ref_name}}
+        run: |
           git config --global user.name "$GITHUB_ACTOR"
           git config --global user.email "$GITHUB_ACTOR@github.com"
           DATESTR=`date +"%Y-%m-%d"`
-          BRANCHNAME=`git rev-parse --abbrev-ref HEAD`
           TAG="$DATESTR/$BRANCHNAME"
           echo "tag is $TAG"
           
