@@ -1,0 +1,20 @@
+name: Test Stuff
+on:
+  push:
+    branches-ignore:
+      - "main"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@github.com"
+          DATESTR=`date +"%Y-%m-%d"`
+          BRANCHNAME=`git rev-parse --abbrev-ref HEAD`
+          TAG="$DATESTR/$BRANCHNAME"
+          echo "tag is $TAG"
+          
