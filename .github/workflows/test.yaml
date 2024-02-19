@@ -16,5 +16,6 @@ jobs:
           echo "running env"
           env
           echo "getting commit"
+          git log
           git log -1 --format="%H"
           
