@@ -17,3 +17,8 @@ jobs:
           env
           echo "getting commit"
           git log -1 --format="%H"
+          DATESTR=`date +"%Y-%m-%d"`
+          BRANCHNAME=`git rev-parse --abbrev-ref HEAD`
+          TAG="$DATESTR/$BRANCHNAME"
+          git tag -a "$TAG"
+          git push origin "$TAG"
