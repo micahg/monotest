@@ -16,5 +16,5 @@ jobs:
           echo "running env"
           env
           echo "getting commit"
-          COMMIT=`git log -1 --format="%H"` echo $COMMIT
+          git log -1 --format="%H"
           
