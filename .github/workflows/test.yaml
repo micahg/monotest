@@ -13,10 +13,8 @@ jobs:
       - run: |
           git config --global user.name "$GITHUB_ACTOR"
           git config --global user.email "$GITHUB_ACTOR@github.com"
-          echo "running env"
-          env
-          echo "getting commit"
-          git log
-          git log -1 --format="%H"
-          X=`git log -1 --format="%H"` && echo "COMMIT IS $X"
+          DATESTR=`date +"%Y-%m-%d"`
+          BRANCHNAME=`git rev-parse --abbrev-ref HEAD`
+          TAG="$DATESTR/$BRANCHNAME"
+          echo "tag is $TAG"
           
