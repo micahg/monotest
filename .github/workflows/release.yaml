@@ -13,10 +13,15 @@ jobs:
           git config --global user.name "$GITHUB_ACTOR"
           git config --global user.email "$GITHUB_ACTOR@github.com"
           env
+          echo stuff
+          git rev-list --tags --skip=1 --max-count=1
+          echo more stuff
+          git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`
+          echo on we go
           PREV_TAG_HASH=$(git rev-list --tags --skip=1 --max-count=1)
           PREV_TAG=$(git describe --abbrev=0 --tags $PREV_TAG_HASH)
           echo "prev tag hash is $PREV_TAG_HASH"
           echo "prev tag is $PREV_TAG"
           echo "curr has is $GITHUB_SHA"
-          git diff "PREV_TAG_HASH" "$GITHUB_SHA"
+          git diff "$GITHUB_REF_NAME" "$PREV_TAG_HASH"
           
