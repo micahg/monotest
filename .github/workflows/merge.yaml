@@ -22,5 +22,6 @@ jobs:
           git log -1 --format="%H"
           DATESTR=`date +"%Y-%m-%d"`
           TAG="$DATESTR/$BRANCHNAME"
-          git tag -a "$TAG" -m "$TAG"
-          git push origin "$TAG"
+          echo "TAG WOULD BE $TAG"
+          echo git tag -a "$TAG" -m "$TAG"
+          echo git push origin "$TAG"
