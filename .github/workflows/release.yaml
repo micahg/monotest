@@ -26,6 +26,6 @@ jobs:
           echo "prev tag is $PREV_TAG"
           echo "curr hash is $GITHUB_SHA"
           echo "curr ref is $GITHUB_REF_NAME"
-          echo git diff "$GITHUB_REF_NAME" "$PREV_TAG_HASH"
-          git diff "$GITHUB_REF_NAME" "$PREV_TAG_HASH"
+          echo git diff "origin/$GITHUB_REF_NAME" "origin/$PREV_TAG_HASH"
+          git diff "origin/$GITHUB_REF_NAME" "origin/$PREV_TAG"
           
