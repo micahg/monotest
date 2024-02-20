@@ -1,0 +1,19 @@
+name: Deploy
+on:
+  release:
+    types: [published]
+jobs:
+  version-mono:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@github.com"
+          PREV_TAG_HASH=`git rev-list --tags --skip=1 --max-count=1`
+          echo "prev tag hash is $PREV_TAG_HASH"
+          echo "curr has is $GITHUB_SHA"
+          git diff "PREV_TAG_HASH" "$GITHUB_SHA"
+          
