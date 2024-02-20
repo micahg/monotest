@@ -24,6 +24,8 @@ jobs:
           PREV_TAG=$(git describe --abbrev=0 --tags $PREV_TAG_HASH)
           echo "prev tag hash is $PREV_TAG_HASH"
           echo "prev tag is $PREV_TAG"
-          echo "curr has is $GITHUB_SHA"
+          echo "curr hash is $GITHUB_SHA"
+          echo "curr ref is $GITHUB_REF_NAME"
+          echo git diff "$GITHUB_REF_NAME" "$PREV_TAG_HASH"
           git diff "$GITHUB_REF_NAME" "$PREV_TAG_HASH"
           
