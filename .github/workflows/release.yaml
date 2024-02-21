@@ -51,7 +51,7 @@ jobs:
         env:
           ALL_PACKAGES: ${{ needs.start-release.outputs.packages}}
           PACKAGE_NAME: a
-          DO_PACKAGE: ${{ needs.start-release.outputs.packages_a }}
+          DO_PACKAGE: ${{ needs.start-release.outputs.package_a }}
         run: |
           echo "PACKAGES ARE \""$ALL_PACKAGES"\" \""$DO_PACKAGE"\""
           PACKAGES=($ALL_PACKAGES)
@@ -79,7 +79,7 @@ jobs:
         env:
           ALL_PACKAGES: ${{ needs.start-release.outputs.packages }}
           PACKAGE_NAME: b
-          DO_PACKAGE: ${{ needs.start-release.outputs.packages_b }}
+          DO_PACKAGE: ${{ needs.start-release.outputs.package_b }}
         run: |
           echo "PACKAGES ARE \""$ALL_PACKAGES"\" \""$DO_PACKAGE"\""
           PACKAGES=($ALL_PACKAGES)
