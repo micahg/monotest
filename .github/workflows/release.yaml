@@ -10,11 +10,11 @@ jobs:
     outputs:
       packages: ${{ steps.version-mono.outputs.packages }}
     steps:
-      - id: version-mono
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: |
+      - id: version-mono
+        run: |
           git config --global user.name "$GITHUB_ACTOR"
           git config --global user.email "$GITHUB_ACTOR@github.com"
           git rev-list --tags --skip=1 --max-count=1
