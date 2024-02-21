@@ -36,6 +36,7 @@ jobs:
           echo "packages=$MODIFIED_PACKAGES"
           echo "packages=$MODIFIED_PACKAGES" >> "$GITHUB_OUTPUT"
           for p in $(git diff --name-only "v0.16.0" "v0.15.0" | grep "^packages\/*" | cut -d / -f2 | sort | uniq); do
+            echo "package_$p=true"
             echo "package_$p=true" >> "$GITHUB_OUTPUT"
           done
           echo "TODO BRANCH AND VERSION MONO REPO"
@@ -50,9 +51,9 @@ jobs:
         env:
           ALL_PACKAGES: ${{ needs.start-release.outputs.packages}}
           PACKAGE_NAME: a
-          DO_PACKAGE: ${{ needs.start-release.outputs.packages_b }}
+          DO_PACKAGE: ${{ needs.start-release.outputs.packages_a }}
         run: |
-          echo "PACKAGES ARE \""$ALL_PACKAGES"\" \"$DO_PACKAGE"\""
+          echo "PACKAGES ARE \""$ALL_PACKAGES"\" \""$DO_PACKAGE"\""
           PACKAGES=($ALL_PACKAGES)
           FOUND=0
           for i in $PACKAGES; do
@@ -80,7 +81,7 @@ jobs:
           PACKAGE_NAME: b
           DO_PACKAGE: ${{ needs.start-release.outputs.packages_b }}
         run: |
-          echo "PACKAGES ARE \""$ALL_PACKAGES"\" \"$DO_PACKAGE"\""
+          echo "PACKAGES ARE \""$ALL_PACKAGES"\" \""$DO_PACKAGE"\""
           PACKAGES=($ALL_PACKAGES)
           FOUND=0
           for i in $PACKAGES; do
