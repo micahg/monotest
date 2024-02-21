@@ -54,15 +54,7 @@ jobs:
           DO_PACKAGE: ${{ needs.start-release.outputs.package_a }}
         run: |
           echo "PACKAGES ARE \""$ALL_PACKAGES"\" \""$DO_PACKAGE"\""
-          PACKAGES=($ALL_PACKAGES)
-          FOUND=0
-          for i in $PACKAGES; do
-              if [ "$i" == "$PACKAGE_NAME" ]; then 
-                  FOUND=1
-              fi
-          done
-
-          if ! [[ $FOUND == 1 ]]; then
+          if ! [[ $DO_PACKAGE != true ]]; then
               echo "$PACKAGE_NAME unchanged - will not build"
               exit
           fi
@@ -82,15 +74,7 @@ jobs:
           DO_PACKAGE: ${{ needs.start-release.outputs.package_b }}
         run: |
           echo "PACKAGES ARE \""$ALL_PACKAGES"\" \""$DO_PACKAGE"\""
-          PACKAGES=($ALL_PACKAGES)
-          FOUND=0
-          for i in $PACKAGES; do
-              if [ "$i" == "$PACKAGE_NAME" ]; then 
-                  FOUND=1
-              fi
-          done
-
-          if ! [[ $FOUND == 1 ]]; then
+          if ! [[ $DO_PACKAGE != true ]]; then
               echo "$PACKAGE_NAME unchanged - will not build"
               exit
           fi
