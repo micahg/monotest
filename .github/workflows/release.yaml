@@ -3,12 +3,15 @@ on:
   release:
     types: [published]
 jobs:
-  version-mono:
+  start-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      packages: ${{ steps.version-mono.outputs.packages }}
     steps:
-      - uses: actions/checkout@v4
+      - id: version-mono
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - run: |
@@ -28,4 +31,19 @@ jobs:
           echo "curr ref is $GITHUB_REF_NAME"
           echo git diff --name-only "$GITHUB_REF_NAME" "$PREV_TAG"
           git diff --name-only "$GITHUB_REF_NAME" "$PREV_TAG"
-          
+          MODIFIED_PACKAGES=$(git diff --name-only "$GITHUB_REF_NAME" "$PREV_TAG" | grep "^packages\/*" | cut -d / -f2 | sort | uniq)
+          echo "packages are $MODIFIED_PACKAGES"
+          echo "packages="MODIFIED_PACKAGES" >> "$GITHUB_OUTPUT""
+          echo "TODO BRANCH AND VERSION MONO REPO"
+  build-package-a:
+    needs: [start-release]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Build Package A
+        uses: actions/checkout@v4
+        env:
+          PACKAGES: ${{ needs.start-release.outputs.packages}}
+        run:
+          echo "PACKAGES ARE"
