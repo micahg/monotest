@@ -9,6 +9,8 @@ jobs:
       contents: write
     outputs:
       packages: ${{ steps.version-mono.outputs.packages }}
+      package_a: ${{ steps.version-mono.outputs.package_a }}
+      package_b: ${{ steps.version-mono.outputs.package_b }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,6 +35,9 @@ jobs:
           echo "packages are $MODIFIED_PACKAGES"
           echo "packages=$MODIFIED_PACKAGES"
           echo "packages=$MODIFIED_PACKAGES" >> "$GITHUB_OUTPUT"
+          for p in $(git diff --name-only "v0.16.0" "v0.15.0" | grep "^packages\/*" | cut -d / -f2 | sort | uniq); do
+            echo "package_$p=true" >> "$GITHUB_OUTPUT"
+          done
           echo "TODO BRANCH AND VERSION MONO REPO"
   build-package-a:
     needs: [start-release]
@@ -45,8 +50,37 @@ jobs:
         env:
           ALL_PACKAGES: ${{ needs.start-release.outputs.packages}}
           PACKAGE_NAME: a
+          DO_PACKAGE: ${{ needs.start-release.outputs.packages_b }}
         run: |
-          echo "PACKAGES ARE \""$ALL_PACKAGES"\""
+          echo "PACKAGES ARE \""$ALL_PACKAGES"\" \"$DO_PACKAGE"\""
+          PACKAGES=($ALL_PACKAGES)
+          FOUND=0
+          for i in $PACKAGES; do
+              if [ "$i" == "$PACKAGE_NAME" ]; then 
+                  FOUND=1
+              fi
+          done
+
+          if ! [[ $FOUND == 1 ]]; then
+              echo "$PACKAGE_NAME unchanged - will not build"
+              exit
+          fi
+          
+          echo "BUILD IT"
+  build-package-b:
+    needs: [start-release]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Package B
+        env:
+          ALL_PACKAGES: ${{ needs.start-release.outputs.packages }}
+          PACKAGE_NAME: b
+          DO_PACKAGE: ${{ needs.start-release.outputs.packages_b }}
+        run: |
+          echo "PACKAGES ARE \""$ALL_PACKAGES"\" \"$DO_PACKAGE"\""
           PACKAGES=($ALL_PACKAGES)
           FOUND=0
           for i in $PACKAGES; do
