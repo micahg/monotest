@@ -31,7 +31,8 @@ jobs:
           git diff --name-only "$GITHUB_REF_NAME" "$PREV_TAG"
           MODIFIED_PACKAGES=$(git diff --name-only "$GITHUB_REF_NAME" "$PREV_TAG" | grep "^packages\/*" | cut -d / -f2 | sort | uniq)
           echo "packages are $MODIFIED_PACKAGES"
-          echo "packages="$MODIFIED_PACKAGES" >> "$GITHUB_OUTPUT""
+          echo "packages=$MODIFIED_PACKAGES"
+          echo "packages=$MODIFIED_PACKAGES" >> "$GITHUB_OUTPUT"
           echo "TODO BRANCH AND VERSION MONO REPO"
   build-package-a:
     needs: [start-release]
