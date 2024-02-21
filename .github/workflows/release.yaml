@@ -41,9 +41,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Build Package A
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         env:
           PACKAGES: ${{ needs.start-release.outputs.packages}}
+      - name: Build Package A
         run: |
           echo "PACKAGES ARE"
